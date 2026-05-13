@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Quiz Game</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 💖 HEART COUNTER */
+.heart-counter {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1.4rem;
+    color: #ff2f97;
+    font-weight: bold;
+}
+
+/* 💗 POP HEART */
+.heart-pop {
+    position: fixed;
+    font-size: 2rem;
+    animation: popHeart 1s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes popHeart {
+    0% {
+        transform: scale(0.5) translateY(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.5) translateY(-20px);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) translateY(-80px);
+        opacity: 0;
+    }
+}
+    .quiz-container {
+        max-width: 780px;
+        margin: auto;
+        background: rgba(255,255,255,0.9);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        position: relative;
+        z-index: 3;
+    }
+    
+    .quiz-container h1 {
+        margin-bottom: 1rem;
+        color: #ff2f97;
+    }
+    .question {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    .answers {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+    .answer-btn {
+        padding: 0.8rem 1rem;
+        border: 2px solid #ff69b4;
+        border-radius: 12px;
+        background: #fff;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .answer-btn:hover {
+        background: #ff8ac7;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+    .result-box {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        color: #56285d;
+    }
+    .quiz-footer {
+        margin-top: 1.5rem;
+    }
+    .quiz-footer button {
+        margin: 0 0.4rem;
+        padding: 0.7rem 1.2rem;
+        border: none;
+        border-radius: 999px;
+        background: linear-gradient(45deg,#ff88c9,#ff69b4);
+        color: #fff;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    
+    <div class="background-photos">
+        <img src="d13.jpeg" alt="background 1" onerror="this.style.display='none'">
+        <img src="d32.jpeg" alt="background 2" onerror="this.style.display='none'">
+        <img src="d15.jpeg" alt="background 3" onerror="this.style.display='none'">
+    </div>
+
+    <div class="quiz-container">
+        <div class="heart-counter">💖 <span id="heartCount">0</span></div>
+        <div id="resultGif" style="margin-bottom: 1rem;"></div>
+        <h1>Quiz: How well do you know me? 😊</h1>
+        <div id="questionBox">
+            <div class="question" id="questionText"></div>
+            <div class="answers" id="answerButtons"></div>
+        </div>
+        <div class="result-box" id="resultBox"></div>
+        <div class="quiz-footer">
+            <button id="nextBtn">Next</button>
+            <button onclick="location.href='index.html'">Back to Start</button>
+        </div>
+    </div>
+
+    <script>
+        let hearts = 0;
+const heartCount = document.getElementById('heartCount');
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart-pop';
+    heart.innerHTML = '💖';
+
+    // random position near center
+    heart.style.left = (window.innerWidth / 2 + (Math.random()*100-50)) + 'px';
+    heart.style.top = (window.innerHeight / 2) + 'px';
+
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 1000);
+}
+function showResultGif(score) {
+    const gifBox = document.getElementById('resultGif');
+
+    let file = '';
+    let isVideo = false;
+
+    if (score >= 9) {
+        file = 'gif2.gif';
+    } else if (score >= 7) {
+        file = 'gif7.mp4';
+        isVideo = true;
+    } else if (score >= 5) {
+        file = 'gif6.mp4';
+        isVideo = true;
+    } else if (score >= 3) {
+        file = 'gif9.mp4';
+        isVideo = true;
+    } else {
+        file = 'gif10.mp4';
+        isVideo = true;
+    }
+
+    if (isVideo) {
+        gifBox.innerHTML = `
+            <video width="300" autoplay loop muted playsinline style="border-radius:15px;">
+                <source src="${file}" type="video/mp4">
+            </video>
+        `;
+    } else {
+        gifBox.innerHTML = `
+            <img src="${file}" style="width:220px; border-radius:15px;">
+        `;
+    }
+}
+    const quizData = [
+        { q: 'Where did we first meet?', a: ['Class front', 'Canteen', 'cls', 'phone'], correct: 0 },
+        { q: 'What was our first conversation about?', a: ['Nothing', 'Homework', 'Movies', 'Sports'], correct: 1 },
+        { q: 'Velila pona 1st place?', a: ['Salem', 'Erode', 'Chennai', 'BGL'], correct: 1 },
+        // 💖 NEW PERSONAL QUESTIONS
+{ q: 'Nama pona thula enaku pudicha place ethu?', a: ['Bangalore', 'Chennai', 'Erode', 'Salem'], correct: 0 },
+
+{ q: 'Na unaku vacha first pet name enna?', a: ['False', 'Bug', 'Siva', 'Sivaram'], correct: 0 },
+
+{ q: 'First thing you bought me?', a: ['Chocolate', 'Xerox', 'Ice cream', 'Files'], correct: 1 },
+
+{ q: 'The first food we had together?', a: ['Briyani', 'Ice cream', 'Chicken rice', 'Chocolate'], correct: 2 },
+
+        { q: 'What is my fav hobby with you?', a: ['Every moment', 'Movie', 'Walk', 'Gossip'], correct: 0 },
+        { q: 'How much do I mean to you?', a: ['Average', 'Good', 'Infinity', 'Century'], correct: 2 },
+        { q: 'Happy birthdayyyyyyyyyyyyyyyyy?', a: ['Maaaaa', 'Sivaaa', 'Sivarammmm', 'Sivaramakrishnan'], correct: 0 }
+
+    ];
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionText = document.getElementById('questionText');
+    const answerButtons = document.getElementById('answerButtons');
+    const resultBox = document.getElementById('resultBox');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function showQuestion() {
+        const q = quizData[currentQuestion];
+        questionText.textContent = `${currentQuestion + 1}. ${q.q}`;
+        answerButtons.innerHTML = '';
+
+        q.a.forEach((option, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'answer-btn';
+            btn.textContent = option;
+            btn.onclick = () => selectAnswer(index);
+            answerButtons.appendChild(btn);
+        });
+
+        resultBox.textContent = '';
+        nextBtn.style.display = 'none';
+    }
+
+   function selectAnswer(index) {
+    const q = quizData[currentQuestion];
+    const isCorrect = index === q.correct;
+
+    document.querySelectorAll('.answer-btn').forEach((b, idx) => {
+        b.disabled = true;
+        if (idx === q.correct) b.style.borderColor = '#4caf50';
+        if (!isCorrect && idx === index) b.style.borderColor = '#e15a63';
+    });
+
+    if (isCorrect) {
+        score++;
+
+        // 💖 increase heart count
+        hearts++;
+        heartCount.textContent = hearts;
+
+        // 💗 create heart animation
+        createHeart();
+
+        resultBox.textContent = 'correct parah! 💗';
+        nextBtn.style.display = 'inline-block';
+
+    } else {
+        resultBox.textContent = `Oh apdiyaa!🥱 Correct answer is ${q.a[q.correct]}. Moving to next...`;
+        nextBtn.style.display = 'none';
+        setTimeout(nextQuestion, 1400);
+    }
+}
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            showQuestion();
+        } else {
+questionText.textContent = 'Quiz finished!';
+answerButtons.style.display = 'none';
+
+// 💖 SHOW RESULT GIF
+showResultGif(score);
+resultBox.textContent = `You got ${hearts} 💗 out of ${quizData.length}! ${
+    score === quizData.length
+        ? 'mass pnriyeyyyyy😘😘😘'
+        : score >= 5
+        ? 'avlodha terinchii vachirukalaaa niii🫠🫠🫠'
+        : 'pathukurennn da unnanaaaaa onumeyyy terila laaaa😒😒😒'
+}`;            nextBtn.textContent = 'Restart';
+            nextBtn.onclick = () => restartQuiz();
+        }
+    }
+
+   function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    hearts = 0;
+
+    heartCount.textContent = 0; // reset counter
+    document.getElementById('resultGif').innerHTML = ''; // remove gif
+
+    answerButtons.style.display = '';
+    nextBtn.textContent = 'Next';
+    nextBtn.onclick = () => nextQuestion();
+    showQuestion();
+}
+    nextBtn.onclick = () => nextQuestion();
+    showQuestion();
+    </script>
+
+    <audio autoplay loop id="bgMusic">
+        <source src="Naan_Pizhai_4K_Flute_Version_with_Lyrics_Flute_Notation_by.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <script src="audio-persist.js"></script>
+</body>
+</html>

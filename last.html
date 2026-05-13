@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Beautiful Memories ✨</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg,
+                    #ffd1dc 0%,
+                    #ececec 25%,
+                    #a1e6f4 50%,
+                    #e6e6fa 75%,
+                    #ffd1dc 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
+
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Enhanced Sparkle Effect */
+        .magic-sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: white;
+            animation: twinkle var(--duration, 4s) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+        }
+
+        /* Generate 50 sparkles with different positions and animations */
+        .magic-sparkles::before,
+        .magic-sparkles::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, white 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: sparkleLayer 8s linear infinite;
+            opacity: 0.5;
+        }
+
+        .magic-sparkles::after {
+            animation-delay: -4s;
+            transform: rotate(45deg);
+        }
+
+        @keyframes sparkleLayer {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-50px);
+            }
+        }
+
+        /* Floating Hearts */
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            color: rgba(255, 105, 180, 0.6);
+            animation: floatHeart var(--float-duration, 6s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translate(0, 100vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(var(--translate-x, 0), -100vh) rotate(360deg);
+            }
+        }
+
+        /* Welcome Section */
+        .welcome {
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .welcome h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInScale 2s ease;
+        }
+
+        .welcome p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 1.5rem auto;
+            line-height: 1.6;
+            animation: fadeIn 2s ease 0.5s both;
+        }
+
+        /* Enhanced Memory Cards */
+        .memory-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            z-index: 3;
+            position: relative;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: visible;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .memory-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: translateX(-100%);
+            transition: 0.10s;
+        }
+
+       
+ .memory-card {
+    overflow: hidden; /* important */
+    transition: transform 0.3s ease;
+}
+
+.memory-img {
+    width: 100%;
+    height: 250px; /* FIXED HEIGHT */
+    object-fit: contain; /* FULL IMAGE ALWAYS */
+
+    border-radius: 15px;
+    background: #fff;
+    margin-bottom: 1rem;
+
+    /* smooth base */
+    transform: scale(0.96);
+    opacity: 0.95;
+
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    backface-visibility: hidden;
+    transform-origin: center center;
+}
+
+/* Hover effect */
+.memory-card:hover .memory-img {
+    transform: scale(1.08); /* zoom only */
+    opacity: 1;
+}
+
+/* Smooth fade for other images */
+.memory-container:hover .memory-card:not(:hover) .memory-img {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+        .memory-card:hover .memory-img {
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            transform: scale(1.03);
+            opacity: o.5;
+        }
+
+
+
+        .memory-date {
+            font-family: 'Dancing Script', cursive;
+            color: #ff69b4;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .memory-caption {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        /* Final Message Section */
+        .final-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            margin-top: 3rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .final-message h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #ff69b4;
+            margin-bottom: 2rem;
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .final-message p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .goodbye-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff69b4, #da70d6);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .goodbye-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Generate Hearts */
+        .js-generate-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff69b4, #da70d6);
+            border-radius: 6px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome h1 {
+                font-size: 3rem;
+            }
+
+            .memory-container {
+                grid-template-columns: 1fr;
+            }
+
+            .final-message h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- PAGE 2 -->
+<div id="causePage" style="display:none;">
+    <h1>Cause Page 💗</h1>
+    <button onclick="showPage('lastPage')">Next ➡</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="lastPage" style="display:none;">
+    <h1>Last Page 💫</h1>
+    <button onclick="showPage('funPage')">Next ➡</button>
+</div>
+
+<!-- PAGE 4 -->
+<div id="funPage" style="display:none;">
+    <h1>Fun Page 🎉</h1>
+    <button onclick="showPage('indexPage')">Back ⬅</button>
+</div>
+    <div class="magic-sparkles"></div>
+    <div class="floating-hearts">
+        <!-- Hearts will be generated via CSS -->
+        <div class="heart" style="--float-duration: 6s; --delay: 0s; --translate-x: 20px;">💝</div>
+        <div class="heart" style="--float-duration: 8s; --delay: 1s; --translate-x: -30px;">💖</div>
+        <div class="heart" style="--float-duration: 7s; --delay: 2s; --translate-x: 40px;">💗</div>
+        <div class="heart" style="--float-duration: 9s; --delay: 3s; --translate-x: -20px;">🫠</div>
+        <div class="heart" style="--float-duration: 5s; --delay: 4s; --translate-x: 30px;">💕</div>
+         <div class="heart" style="--float-duration: 6s; --delay: 0s; --translate-x: 20px;">🫠</div>
+        <div class="heart" style="--float-duration: 8s; --delay: 1s; --translate-x: -30px;">💖</div>
+        <div class="heart" style="--float-duration: 7s; --delay: 2s; --translate-x: 40px;">💗</div>
+        <div class="heart" style="--float-duration: 9s; --delay: 3s; --translate-x: -20px;">😘</div>
+        <div class="heart" style="--float-duration: 5s; --delay: 4s; --translate-x: 30px;">💕</div>
+         <div class="heart" style="--float-duration: 6s; --delay: 0s; --translate-x: 20px;">💝</div>
+        <div class="heart" style="--float-duration: 8s; --delay: 1s; --translate-x: -30px;">💖</div>
+        <div class="heart" style="--float-duration: 7s; --delay: 2s; --translate-x: 40px;">💗</div>
+        <div class="heart" style="--float-duration: 9s; --delay: 3s; --translate-x: -20px;">🥰</div>
+        <div class="heart" style="--float-duration: 5s; --delay: 4s; --translate-x: 30px;">💕</div>
+    </div>
+
+    <section class="welcome">
+        <h1>Bestestt Friendsss!🫠💗</h1>
+        <p>Nama kadantha kalathukuuu povomaaa?!!!!! ...</p>
+    </section>
+
+    <div class="memory-container" id="memory-container">
+        <div class="memory-card">
+            <img src="./d1.jpg" alt="Extra Memory" class="memory-img"
+                onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='./d1.jpeg';}else{this.parentElement.style.display='none';}">
+            <div class="memory-date">Matching matching!</div>
+            <div class="memory-caption">Innum neriya memories add pannalam - this one is added specially for you! 💗</div>
+        </div>
+    </div>
+
+    <section class="final-message">
+        <h2>Kadasii Msggg uhhh!!</h2>
+        <p>some how i tried my bestt to collect and recall the memories of us<br>
+            oru oru phto vum namaku oru oru memoriess laaaa!!🫠💗<br>
+        ithey mariii neriaya memories laaam craete pnityy iruknummm!AVLODHA!💗</p>
+        <p>ALWYS THERE FOR YOU NOW N FOREVER😘✨</p>
+        <a href="fun.html" class="goodbye-btn">💗</a>
+    </section>
+
+    <audio autoplay loop id="bgMusic">
+    <source src="Naan_Pizhai_4K_Flute_Version_with_Lyrics_Flute_Notation_by.mp3" type="audio/mpeg">
+</audio>
+
+   <script>
+(function () {
+    const memoryContainer = document.getElementById('memory-container');
+    if (!memoryContainer) return;
+
+    function createCard(imagePath, title, caption) {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.innerHTML = `
+            <img src="${imagePath}" alt="${title}" class="memory-img">
+            <div class="memory-date">${title}</div>
+            <div class="memory-caption">${caption}</div>
+        `;
+        return card;
+    }
+
+    /* 💗 CUSTOM MEMORIES */
+    const memories = [
+        { img: './d6.jpg', title: 'Class Fun 😂', caption: 'Padikura madhiri irundhalum comedy dhaan 😆' },
+        { img: './d4.jpg', title: 'sympo laa 📸', caption: '💞' },
+        { img: './d3.jpg', title: 'Fav Day 💖', caption: 'Indha naal maraka mudiyathu laaaaa😌✨' },
+        { img: './d5.jpg', title: 'Cute Moment 🐣', caption: 'Silly ah irundhalum romba special 🫶' },
+        { img: './d2.jpg', title: 'sympooo🫠', caption: 'CHAIRMAN kuda oru click uh!💗' },
+        { img: './d7.jpg', title: 'sports day 🌸', caption: 'Ithu namma rednum peru bdy dress pota apo edutahthu laa😍' },
+        { img: './d8.jpg', title: 'Fun Time 😂', caption: 'Siricha moment dhan best 😄💕' },
+        { img: './d9.jpg', title: 'Sweet Smile 😊', caption: 'Un smile dhan highlight 💖' },
+        { img: './d10.jpg', title: 'night walk ✨', caption: 'with you evrything is unvisible' },
+        { img: './d11.jpg', title: 'Close Moments 🫠', caption: 'Indha pic la feel iruku 💗' },
+        { img: './d12.jpg', title: 'Laugh Attack 😂', caption: 'Sirichu sirichu tired 😆' },
+        { img: './d13.jpg', title: 'KOLANDA😘', caption: 'Cutesttttttttttt 💞' },
+        { img: './d14.jpg', title: 'core memory 💕', caption: 'Idhu pola irukanum always 😌' },
+        { img: './d15.jpg', title: '💎', caption: 'Maraka mudiyatha moment💗' },
+        { img: './d16.jpg', title: 'Chinna Sandhosham 🫶', caption: 'Small moment… big happiness 💖' },
+        { img: './d17.jpg', title: 'Fun Day 😄', caption: 'Full comedy & fun 💕' },
+        { img: './d18.jpg', title: 'Cute Scene 🐣', caption: 'Paatha odane smile varum 😊' },
+        { img: './d19.jpg', title: 'Our Time 💗', caption: 'Just us… perfect 💞' },
+        { img: './d20.jpg', title: 'Unforgettable 😌', caption: 'Indha day maraka mudiyathu' },
+        { img: './d21.jpg', title: 'Crazy Moments 🤪', caption: 'Namma level vera 😂' },
+        { img: './d22.jpg', title: 'Pure Happiness 💖', caption: 'Real happiness idhu dhan' },
+        { img: './d23.jpg', title: 'Memory Lane 🌸', caption: 'Old but gold 💗' },
+        { img: './d24.jpg', title: 'Smile Please 😊', caption: 'Un siripu ❤️' },
+        { img: './d25.jpg', title: 'Togetherness 🫠', caption: 'done project as a team 💕' },
+        { img: './d26.jpg', title: 'Chill Day😌', caption: 'coaching timesss🥱' },
+        { img: './d27.jpg', title: 'Happy dayyy', caption: 'Double happiness 💖' },
+        { img: './d28.jpg', title: 'Golden Time ✨', caption: 'Time flew fast just the 1st sympo u intro me to ur frndzz💞' },
+        { img: './d29.jpg', title: 'Cute Memory 🐣', caption: 'Romba pudicha pic 💗' },
+        { img: './d30.jpg', title: 'Forever Moment ♾️', caption: 'Ithu forever bcz 1st outing laaa💕' },
+        { img: './d31.jpg', title: 'nakstraaa 😂', caption: 'samiiiiii 😆' },
+        { img: './d32.jpg', title: 'only usss🫠', caption: 'forever us  💗' },
+        { img: './d33.jpg', title: 'food outings 💞', caption: 'Idhu than namma connection FOOD!😌' },
+        { img: './d34.jpg', title: 'HOME 💖', caption: 'everything feels calm and peace💕' },
+        { img: './d35.jpg', title: 'HIS day🫠', caption: 'anything for ur smile💗' },
+        { img: './d36.jpg', title: 'intro🌸', caption: 'nothing but special alwys😌' },
+        { img: './d37.jpg', title: 'Cake😍', caption: 'chocolateeee cakeeeuhhhhhhh💖' },
+        { img: './d38.jpg', title: 'film💫', caption: 'movie partners💗' },
+        { img: './d39.jpg', title: 'chennai day💎', caption: 'just a frnd to care taker💕' },
+        { img: './d43.jpg', title: 'Chennai Interview😉', caption: 'when i feel more safe and comfortable with you💗' },
+        { img: './d44.jpg', title: 'Teaholic', caption: 'WE MEET,CHIT CHAT💗' },
+        { img: './d45.jpg', title: 'Train', caption: 'We both and our cute stuffs👻' }
+    ];
+
+    /* 💗 LOAD MEMORIES */
+    memories.forEach((m) => {
+        const card = createCard(m.img, m.title, m.caption);
+
+        const img = card.querySelector('img');
+        const base = m.img.replace('.jpg', '');
+
+        const candidates = [
+            `${base}.jpg`,
+            `${base}.jpeg`,
+            `${base}.png`,
+            `${base}.webp`
+        ];
+
+        let pointer = 0;
+
+        img.onerror = function () {
+            pointer++;
+            if (pointer < candidates.length) {
+                this.src = candidates[pointer];
+            } else {
+                card.style.display = 'none';
+            }
+        };
+
+        memoryContainer.appendChild(card);
+    });
+
+    /* 💬 WHATSAPP MEMORIES */
+    const whatsappMemories = [
+    {
+        img: 'WhatsApp Image 2026-04-06 at 1.28.42 PM.jpeg',
+        title: 'birthday click😂',
+        caption: 'one sem lab la irunthomeyyyyy 😆💕'
+    },
+    {
+        img: 'WhatsApp Image 2026-04-06 at 1.28.44 PM.jpeg',
+        title: 'SALEM COLLEGE😉',
+        caption: 'JUST A FRNDS AH IRUNTHOM LAA'
+    },
+    {
+        img: 'WhatsApp Image 2026-04-06 at 1.28.45 PM.jpeg',
+        title: '🫠',
+        caption: 'Birthday spcl😍'
+    },
+    {
+        img: 'WhatsApp Image 2026-04-06 at 1.28.46 PM.jpeg',
+        title: 'CHAIRMAN👻',
+        caption: 'Somethin spcl bcz chairman was wit me throughout the day💗'
+    },
+    {
+        img: 'WhatsApp Image 2026-04-06 at 1.28.48 PM.jpeg',
+        title: 'FIRST EVR PHTO😍👻',
+        caption: 'Enta thayangi thayangi ketangaa phtoo ku ivan entaa🫠😂💖'
+    },
+     {
+        img: 'WhatsApp Image 2026-04-06 at 1.28.50 PM.jpeg',
+        title: 'MY FAVV💞',
+        caption: 'WHERE IT ALL BEGINS💕'
+    },
+    {
+        img: 'WhatsApp Image 2026-04-15 at 7.24.35 PM.jpeg',
+        title: '👻',
+        caption: ' canteen ice cream hits different la athum diet apo😂'
+    },
+    {
+        img: 'WhatsApp Image 2026-04-06 at 1.28.49 PM.jpeg',
+        title: 'True N Pure💗',
+        caption: ' 💗'
+    },
+    
+   
+   
+];
+    whatsappMemories.forEach((m) => {
+    const card = createCard(`./${m.img}`, m.title, m.caption);
+
+    const img = card.querySelector('img');
+    img.onerror = function () {
+        card.style.display = 'none';
+    };
+
+    memoryContainer.appendChild(card);
+});
+
+})();
+
+
+</script>
+<script src="audio-persist.js"></script>
+
+</body>
+
+</html>
